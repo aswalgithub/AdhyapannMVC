@@ -6,3 +6,14 @@ C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.csproj.Co
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.csproj.CopyComplete
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.dll
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.pdb
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\Newtonsoft.Json.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\SendGrid.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\Newtonsoft.Json.xml
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\SendGrid.pdb
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\SendGrid.xml
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\DataAccessLayer.dll.config
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\System.Net.Http.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\System.Security.Cryptography.Algorithms.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\System.Security.Cryptography.Encoding.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\System.Security.Cryptography.Primitives.dll
+C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\bin\Release\System.Security.Cryptography.X509Certificates.dll

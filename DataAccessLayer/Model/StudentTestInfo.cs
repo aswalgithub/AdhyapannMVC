@@ -6,6 +6,7 @@ namespace DataAccessLayer
 {
     public class StudentTestInfo
     {
+        public string Student_TestID { get; set; }
         public string Name { get; set; }
         public string School_Name { get; set; }
         public string Gender { get; set; }
@@ -14,6 +15,8 @@ namespace DataAccessLayer
         public string DOB { get; set; }
         public int Age { get; set; }
         public string Reference_Code { get; set; }
+        public int Package_ID { get; set; }
+        public string Package_Name { get; set; }
         public int Verbal_INF { get; set; }
         public int Verbal_COM { get; set; }
         public int Verbal_ARI { get; set; }

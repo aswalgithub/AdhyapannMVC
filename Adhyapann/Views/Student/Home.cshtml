@@ -129,7 +129,7 @@ Adhyapaan Physchometric Tests
                     {
                     <li class="c-programme-card">
                         <a href="@Url.Action("Register", "Student",new { packageID = @package.Package_ID })">
-                            <img src="@Url.Content(@package.ImagePath)" class="lazy" alt="">
+                            <img src="@Url.Content(@package.ImagePath==""?"~/wwwroot/images/1-7Phycho.jpg":@package.ImagePath)" class="lazy" alt="">
                             <div >
                                 <div>@package.Package_Name</div>
                                

@@ -21,14 +21,14 @@ using System.IO;
 
 namespace Adhyapan_Project.Controllers
 {
-   
+
     public class StudentController : Controller
     {
 
         public AdhyapanDB adhyapanDB = new AdhyapanDB();
         //public StudentController( AdhyapanDB adhyapanDB)
         //{
-           
+
         //    this.adhyapanDB = adhyapanDB;
         //}
         public ActionResult Index()
@@ -36,7 +36,7 @@ namespace Adhyapan_Project.Controllers
             return View();
         }
 
-        
+
 
         public ActionResult SubTest(int id)
         {
@@ -59,10 +59,11 @@ namespace Adhyapan_Project.Controllers
         public ActionResult SubmitQuestions(Question questions)
         {
             Questions subquestions = new Questions();
-            
-          
+
+
             return View("Index");
         }
+
 
         public ActionResult Register(int packageID)
         {
@@ -71,18 +72,18 @@ namespace Adhyapan_Project.Controllers
 
             return View("Register", lstPackages[0]);
         }
-        [HttpPost]       
-        public ActionResult SaveStudentDetails(Student student)
+        [HttpPost]
+        public ActionResult SaveStudentDetails(Student student, string Package_Pwd, string Password)
         {
 
-            //AdhyapanDB adhyapanDB = new AdhyapanDB();
             Student studentUpdated = adhyapanDB.InsertStudentDetails(student);
-            Session["Reference_Code"] = studentUpdated.Reference_Code;           
+            Session["Reference_Code"] = studentUpdated.Reference_Code;
             //HttpContext.Session.Set("Reference_Code", Encoding.UTF8.GetBytes((studentUpdated.Reference_Code)));           
-            return RedirectToAction("LoadVerbalnformationTest", "Test"); 
+            return RedirectToAction("LoadVerbalnformationTest", "Test");
+
         }
 
-        
+
         public ActionResult Home()
         {
             //AdhyapanDB adhyapanDB = new AdhyapanDB();

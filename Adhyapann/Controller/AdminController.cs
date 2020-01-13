@@ -72,10 +72,20 @@ namespace Adhyapan_Project.Controllers
                 new BoolOptionShared() { Shared_ID = "2", Shared_Name = "No" }
             };
 
+            List<PackageCategory> packageGroup = new List<PackageCategory>()
+            {
+                new PackageCategory() { Package_ClassGroup_ID = "", Package_ClassGroup = "" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "1", Package_ClassGroup = "CLASS 1-7" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "2", Package_ClassGroup = "CLASS 8-12" }
+            };
+
 
             ViewBag.Shared = new SelectList(boolOptionShared, "Shared_ID", "Shared_Name");
             ViewBag.EmailResult = new SelectList(boolOptionEmailDecision, "EmailDecision_ID", "EmailDecision_Name");
             ViewBag.Tests = new MultiSelectList(lstTest, "Test_Name", "Test_Name");
+            ViewBag.PackageGroup = new SelectList(packageGroup, "Package_ClassGroup", "Package_ClassGroup");
             return View();
 
         }
@@ -107,13 +117,21 @@ namespace Adhyapan_Project.Controllers
 
                 new BoolOptionShared() { Shared_ID = "2", Shared_Name = "No" }
             };
+            List<PackageCategory> packageGroup = new List<PackageCategory>()
+            {
+                new PackageCategory() { Package_ClassGroup_ID = "", Package_ClassGroup = "" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "1", Package_ClassGroup = "CLASS 1-7" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "2", Package_ClassGroup = "CLASS 8-12" }
+            };
             ViewBag.Shared = new SelectList(boolOptionShared, "Shared_ID", "Shared_Name");
             ViewBag.EmailResult = new SelectList(boolOptionEmailDecision, "EmailDecision_ID", "EmailDecision_Name");
-
+            ViewBag.PackageGroup = new SelectList(packageGroup, "Package_ClassGroup", "Package_ClassGroup");
             return View("Create");
         }
 
-        [HttpPost]
+        //[HttpPost]
         [Authorize]
         public ActionResult SearchPackage(SearchInput input)
         {
@@ -191,7 +209,16 @@ namespace Adhyapan_Project.Controllers
                 new BoolOptionShared() { Shared_ID = "2", Shared_Name = "No" }
             };
 
+            List<PackageCategory> packageGroup = new List<PackageCategory>()
+            {
+                new PackageCategory() { Package_ClassGroup_ID = "", Package_ClassGroup = "" },
 
+                new PackageCategory() { Package_ClassGroup_ID = "1", Package_ClassGroup = "CLASS 1-7" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "2", Package_ClassGroup = "CLASS 8-12" }
+            };
+           
+            ViewBag.PackageGroup = new SelectList(packageGroup, "Package_ClassGroup", "Package_ClassGroup", packages.lstPackages[0].Package_ClassGroup);
 
             ViewBag.Shared = new SelectList(boolOptionShared, "Shared_ID", "Shared_Name", packages.lstPackages[0].Shared == false ? 2 : 1);
             ViewBag.EmailResult = new SelectList(boolOptionEmailDecision, "EmailDecision_ID", "EmailDecision_Name", packages.lstPackages[0].Email_Result_ToUser == false ? 2 : 1);
@@ -227,6 +254,16 @@ namespace Adhyapan_Project.Controllers
 
                 new BoolOptionShared() { Shared_ID = "2", Shared_Name = "No" }
             };
+            List<PackageCategory> packageGroup = new List<PackageCategory>()
+            {
+                new PackageCategory() { Package_ClassGroup_ID = "", Package_ClassGroup = "" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "1", Package_ClassGroup = "CLASS 1-7" },
+
+                new PackageCategory() { Package_ClassGroup_ID = "2", Package_ClassGroup = "CLASS 8-12" }
+            };
+
+            ViewBag.PackageGroup = new SelectList(packageGroup, "Package_ClassGroup", "Package_ClassGroup");
             ViewBag.Shared = new SelectList(boolOptionShared, "Shared_ID", "Shared_Name");
             ViewBag.EmailResult = new SelectList(boolOptionEmailDecision, "EmailDecision_ID", "EmailDecision_Name");
             Packages packages = new Packages();

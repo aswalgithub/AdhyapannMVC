@@ -14,4 +14,10 @@ namespace DataAccessLayer
         public string Shared_ID { get; set; }
         public string Shared_Name { get; set; }
     }
+
+    public class PackageCategory
+    {
+        public string Package_ClassGroup_ID { get; set; }
+        public string Package_ClassGroup { get; set; }
+    }
 }

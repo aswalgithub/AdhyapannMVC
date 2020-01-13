@@ -11,6 +11,8 @@ namespace DataAccessLayer
         public string Package_Name { get; set; }
         public string Name { get; set; }
         public string School_Name { get; set; }
+
+     
         public string Gender { get; set; }
         public string Email_ID { get; set; }
         public string DOB { get; set; }

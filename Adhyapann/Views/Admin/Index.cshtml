@@ -529,15 +529,16 @@
 
                 <thead>
                     <tr>
-                        <th scope="col" style="width:300px">Package Name</th>                       
+                        <th scope="col" style="width:300px">Package Name</th>
                         <th scope="col">Package Code</th>
+                        <th scope="col">Package Group</th>
                         <th scope="col">Password</th>
                         <th scope="col">Shared</th>
                         <th scope="col">Price(INR)</th>
                         <th scope="col">Email Result To User</th>
                         <th scope="col">Associated Tests</th>
                         @*<th scope="col">Completed</th>
-                        <th scope="col">Attended</th>*@
+        <th scope="col">Attended</th>*@
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -550,30 +551,31 @@
                 <tbody>
                     @foreach (DataAccessLayer.Package package in Model.lstPackages)
                     {
-                        <tr>
+                    <tr>
 
-                            <td style="width:400px">@package.Package_Name</td>                            
-                            <td>@package.Package_Code</td>
-                            <td>@package.Package_Password</td>
-                            <td>@package.Shared</td>
-                            <td>@package.Price</td>
-                            <td>@package.Email_Result_ToUser</td>
-                            <td style="width:400px">@Html.Raw(@package.AssociatedTests.Replace(",", "<br>"))</td>
-                            @*<td>@package.Completed</td>
-                            <td>@package.Attended</td>*@
-                            @*<td><a href="admin/edit">Edit</a></td>*@
-                            <td><input style="color:red" type="button" value="Edit" name="EditPackage" Var1="@package.Package_ID"></td>
+                        <td style="width:400px">@package.Package_Name</td>
+                        <td>@package.Package_Code</td>
+                        <td>@package.Package_ClassGroup</td>
+                        <td>@package.Package_Password</td>
+                        <td>@package.Shared</td>
+                        <td>@package.Price</td>
+                        <td>@package.Email_Result_ToUser</td>
+                        <td style="width:400px">@Html.Raw(@package.AssociatedTests.Replace(",", "<br>"))</td>
+                        @*<td>@package.Completed</td>
+        <td>@package.Attended</td>*@
+                        @*<td><a href="admin/edit">Edit</a></td>*@
+                        <td><input style="color:red" type="button" value="Edit" name="EditPackage" Var1="@package.Package_ID"></td>
 
-                            @*<td><a style="color:red" href="#">Delete</a></td>*@
-                            <td>
-                                @*<button style="color:red" type="button" class="deletePackage" value="Delete"
-                                    Var1="@package.Package_ID">Remove</button>*@
-                                <input style="color:red" type="button" value="Delete" name="DeletePackage"
-                                       Var1="@package.Package_ID">
-                            </td>
+                        @*<td><a style="color:red" href="#">Delete</a></td>*@
+                        <td>
+                            @*<button style="color:red" type="button" class="deletePackage" value="Delete"
+            Var1="@package.Package_ID">Remove</button>*@
+                            <input style="color:red" type="button" value="Delete" name="DeletePackage"
+                                   Var2="@package.Package_ID">
+                        </td>
 
-                            @*<td><input type="button" value="Remove" onclick="Remove(this)" /></td>*@
-                        </tr>
+                        @*<td><input type="button" value="Remove" onclick="Remove(this)" /></td>*@
+                    </tr>
                     }
 
                 </tbody>

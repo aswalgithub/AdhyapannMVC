@@ -41,17 +41,30 @@ namespace Adhyapann_Project.Controllers
         {
             try
             {
-                byte[] AsBytes = System.IO.File.ReadAllBytes("./wwwroot/pdf/Results" + ref_code.ToString() + ".pdf");
+                byte[] AsBytes = System.IO.File.ReadAllBytes(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Results" + studentTestInfo.Student_TestID + ".pdf"));
                 String AsBase64String = Convert.ToBase64String(AsBytes);
 
-                byte[] AsBytes_xls = System.IO.File.ReadAllBytes("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
-                String AsBase64String_xls = Convert.ToBase64String(AsBytes_xls);
-
-                var emails = new List<EmailAddress>
+                //byte[] AsBytes_xls = System.IO.File.ReadAllBytes("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
+                //String AsBase64String_xls = Convert.ToBase64String(AsBytes_xls);
+                List<Package> lstPackages = adhyapanDB.GetPackageDetails(studentTestInfo.Package_ID);
+                List<EmailAddress> emails = new List<EmailAddress>();
+                if (lstPackages[0].Email_Result_ToUser == true)
                 {
-                    new EmailAddress(studentTestInfo.Email_ID),
-                    new EmailAddress("aniketdepp@gmail.com"),
-                };
+                    emails.Add(new EmailAddress(studentTestInfo.Email_ID));
+                    emails.Add(new EmailAddress("aniketdepp@gmail.com"));
+                    emails.Add(new EmailAddress("manishc56@gmail.com"));
+                    //    var emails = new List<EmailAddress>
+                    //{
+                    //    new EmailAddress(studentTestInfo.Email_ID),
+                    //    new EmailAddress("aniketdepp@gmail.com"),
+                    //     new EmailAddress("manishc56@gmail.com")
+                    //};
+                }
+                else
+                {
+                    emails.Add(new EmailAddress("aniketdepp@gmail.com"));
+                    emails.Add(new EmailAddress("manishc56@gmail.com"));
+                }
                 var apiKey = ConfigurationManager.AppSettings["SENDGRID_API_KEY"].ToString();
                 
                 var client = new SendGridClient(apiKey);
@@ -78,7 +91,7 @@ namespace Adhyapann_Project.Controllers
 
                 msg.AddAttachment(pdfAttachment);
                 //msg.AddAttachment(attachment);
-                var response = await client.SendEmailAsync(msg);
+                var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
 
 
             }
@@ -92,8 +105,7 @@ namespace Adhyapann_Project.Controllers
 
         public void CreateExcel(string ref_code)
         {
-            try
-            {
+            
                 ////AdhyapanDB adhyapanDB = new AdhyapanDB();
                 StudentTestInfo studentTestScore = adhyapanDB.GetScores(ref_code);
 
@@ -101,11 +113,13 @@ namespace Adhyapann_Project.Controllers
                 SpreadsheetInfo.FreeLimitReached += (sender, e) => e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
 
                 //var workbook = new ExcelFile();
-
+                //string fileName = "ich_will.mp3";
+                //string path = Path.Combine(Environment.CurrentDirectory, @"wwwroot\", "ReportTemplate.xlsx");
                 //var worksheet = workbook.Worksheets.Add("Chart");
-                var workbook = ExcelFile.Load("..\\AdhyapannWeb\\wwwroot\\ReportTemplate.xlsx");
+                var workbook = ExcelFile.Load(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/ReportTemplate.xlsx"));
+                //var workbook = ExcelFile.Load(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"wwwroot\", "ReportTemplate.xlsx"));
 
-
+                
                 var worksheet = workbook.Worksheets[0];
                 //Data for Emotional Regulation Score
                 worksheet.Cells["C10"].Value = studentTestScore.Name;
@@ -211,7 +225,7 @@ namespace Adhyapann_Project.Controllers
 
                 //chart for Performance Score
                 var perf_chart = worksheet.Charts.Add(GemBox.Spreadsheet.Charts.ChartType.Column, "B191", "H203");
-                perf_chart.SelectData(worksheet.Cells.GetSubrange("B191", "D195"), true);
+                perf_chart.SelectData(worksheet.Cells.GetSubrange("B191", "D196"), true);
                 perf_chart.DataLabels.Show();
                 perf_chart.Title.Text = "Performance Scores";
                 perf_chart.Legend.IsVisible = true;
@@ -248,34 +262,28 @@ namespace Adhyapann_Project.Controllers
 
                 // Make entire sheet print on a single page.
                 //worksheet.PrintOptions.FitWorksheetWidthToPages = 1;
+                workbook.Save(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Chart" + studentTestScore.Student_TestID + ".xlsx"));
+                //workbook.Save(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"wwwroot\pdf\", "Chart" + ref_code.ToString() + ".xlsx"));
+                //workbook.Save("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
 
-
-                workbook.Save("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
-
-
-
-
-
+                                             
                 Spire.Xls.Workbook pdfWorkbook = new Spire.Xls.Workbook();
-                pdfWorkbook.LoadFromFile("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
-                pdfWorkbook.SaveToFile("./wwwroot/pdf/Results" + ref_code.ToString() + ".pdf", Spire.Xls.FileFormat.PDF);
-
+                pdfWorkbook.LoadFromFile(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Chart" + studentTestScore.Student_TestID + ".xlsx"));
+                
+                pdfWorkbook.SaveToFile(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Results" + studentTestScore.Student_TestID + ".pdf"), Spire.Xls.FileFormat.PDF);
+               
                 Execute(ref_code, studentTestScore).Wait();
-                if ((System.IO.File.Exists("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx")))
+                if ((System.IO.File.Exists(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Chart" + studentTestScore.Student_TestID + ".xlsx"))))
                 {
-                    System.IO.File.Delete("./wwwroot/pdf/Chart" + ref_code.ToString() + ".xlsx");
+                    System.IO.File.Delete(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Chart" + studentTestScore.Student_TestID + ".xlsx"));
                 }
-                if ((System.IO.File.Exists("./wwwroot/pdf/Results" + ref_code.ToString() + ".pdf")))
+                if ((System.IO.File.Exists(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Results" + studentTestScore.Student_TestID + ".pdf")))) 
                 {
-                    System.IO.File.Delete("./wwwroot/pdf/Results" + ref_code.ToString() + ".pdf");
+                    System.IO.File.Delete(System.Web.Hosting.HostingEnvironment.MapPath("~/wwwroot/pdf/Results" + studentTestScore.Student_TestID + ".pdf"));
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-            }
+          
         }
-
+            
 
 
 
@@ -374,7 +382,7 @@ namespace Adhyapann_Project.Controllers
         public ActionResult EmotionalRegulation912()
         {
             //AdhyapanDB adhyapanDB = new AdhyapanDB();
-            Student studentDetail = adhyapanDB.GetStudentDetails("YL6VUvotUkieaKzEeUoV8g==");
+            Student studentDetail = adhyapanDB.GetStudentDetails("6LV1mDEI3Um43GyEqSTOOg==");
 
             return View("EmotionalRegulation9-12", studentDetail);
         }

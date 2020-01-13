@@ -158,29 +158,34 @@
             <input type="hidden" value="@Model.lstPackages[0].Package_ID" name="Package_ID" id="Package_ID" />
             <div class="form-group">
                 <label for="Package_Name">Package Name :</label>
-                <input placeholder="Name" type="text" tabindex="1" name="Package_Name" id="Package_Name" value="@Model.lstPackages[0].Package_Name" required pattern="\S.*\S" autofocus>
+                <input placeholder="Name" type="text" tabindex="1" name="Package_Name" id="Package_Name" value="@Model.lstPackages[0].Package_Name" required pattern=".*\S+.*" title="This field is required" autofocus>
             </div>
 
             <div class="form-group">
                 <label for="Package_Code">Package Code:</label>
-                <input placeholder="Package Code" type="text" tabindex="3" name="Package_Code" id="Package_Code" value="@Model.lstPackages[0].Package_Code" required pattern="\S.*\S">
+                <input placeholder="Package Code" type="text" tabindex="3" name="Package_Code" id="Package_Code" value="@Model.lstPackages[0].Package_Code" required pattern=".*\S+.*" title="This field is required">
+            </div>
+            <div class="form-group">
+                <label for="Shared">Package Group:</label>
+                @Html.DropDownList("Package_ClassGroup", (SelectList)ViewBag.PackageGroup, new { required = (string)null })
+
             </div>
             <div class="form-group">
                 <label for="Package_Password">Package Password:</label>
-                <input placeholder="Package Password" type="text" tabindex="4" name="Package_Password" id="Package_Password" value="@Model.lstPackages[0].Package_Password" required pattern="\S.*\S">
+                <input placeholder="Package Password" type="text" tabindex="4" name="Package_Password" id="Package_Password" value="@Model.lstPackages[0].Package_Password" required pattern=".*\S+.*" title="This field is required">
             </div>
             <div class="form-group">
                 <label for="Shared">Share to user:</label>
                 @Html.DropDownList("Shared_ID", (SelectList)ViewBag.Shared, new { required = (string)null })
                 @*<select id="Shared" name="Shared">
-                        <option>Select</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>*@
+                <option>Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>*@
             </div>
             <div class="form-group">
-                <label for="Price">Price:</label>
-                <input placeholder="Price" type="text" tabindex="6" name="Price" id="Price" value="@Model.lstPackages[0].Price" required pattern="\S.*\S">
+                <label for="Price">Price(INR):</label>
+                <input placeholder="Price" type="text" tabindex="6" name="Price" id="Price" value="@Model.lstPackages[0].Price" required pattern=".*\S+.*" title="This field is required">
             </div>
             <div class="form-group">
                 <label for="Username">Email Result To User:</label>
@@ -192,10 +197,10 @@
             </div>
             <button name="submit" type="submit" id="package-edit" data-submit="...Sending">Edit</button>
             @*<select id="EmailResults" name="Email_Result_ToUser">
-                    <option>Select</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>*@
+            <option>Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>*@
         </div>
     </form>
 

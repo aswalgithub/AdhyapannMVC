@@ -198,3 +198,4 @@ C:\Adhyapann6Jan\Adhyapann\Adhyapann\obj\Release\Adhyapann.csproj.CoreCompileInp
 C:\Adhyapann6Jan\Adhyapann\Adhyapann\obj\Release\Adhyapann.csproj.CopyComplete
 C:\Adhyapann6Jan\Adhyapann\Adhyapann\obj\Release\Adhyapann.dll
 C:\Adhyapann6Jan\Adhyapann\Adhyapann\obj\Release\Adhyapann.pdb
+C:\Adhyapann6Jan\Adhyapann\Adhyapann\bin\DataAccessLayer.dll.config

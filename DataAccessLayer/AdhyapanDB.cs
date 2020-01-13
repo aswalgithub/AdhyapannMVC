@@ -28,8 +28,8 @@ namespace DataAccessLayer
             ////string ConnectionString = @"Data source=DESKTOP-28M703K\SQLEXPRESS; Database=Adhyapann; Integrated Security=SSPI;";
 
             // Query to be executed
-            string query = "Insert Into package (Package_Name, Package_Code, Package_Password, Shared, Price, Email_Result_ToUser, AssociatedTests) " +
-                               "VALUES (@Package_Name, @Package_Code, @Package_Password, @Shared, @Price, @Email_Result_ToUser, @AssociatedTests) ";
+            string query = "Insert Into package (Package_Name, Package_Code, Package_Password, Shared, Price, Email_Result_ToUser, AssociatedTests,Package_ClassGroup) " +
+                               "VALUES (@Package_Name, @Package_Code, @Package_Password, @Shared, @Price, @Email_Result_ToUser, @AssociatedTests,@Package_ClassGroup ) ";
             
             // instance connection and command
             using (MySqlConnection cn = GetConnection())
@@ -44,6 +44,7 @@ namespace DataAccessLayer
                 cmd.Parameters.Add("@Price", MySql.Data.MySqlClient.MySqlDbType.VarChar, 10).Value = package.Price;
                 cmd.Parameters.Add("@Email_Result_ToUser", MySql.Data.MySqlClient.MySqlDbType.Bit).Value = package.Email_Result_ToUser;
                 cmd.Parameters.Add("@AssociatedTests", MySql.Data.MySqlClient.MySqlDbType.VarChar, 100).Value = package.AssociatedTests;
+                cmd.Parameters.Add("@Package_ClassGroup", MySql.Data.MySqlClient.MySqlDbType.VarChar, 10).Value = package.Package_ClassGroup;
 
                 // open connection, execute command and close connection
                 cn.Open();
@@ -61,11 +62,11 @@ namespace DataAccessLayer
             //string guidResult = System.Guid.NewGuid().ToString();
             //guidResult = guidResult.Replace("-", string.Empty);
             string uniquevalue = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); ;
-
-            int Age = CalculateAge(Convert.ToDateTime(student.DOB));
+           
+            //int Age = 14;
             // Query to be executed
             string query = "Insert Into student_testinfo(Name, School_Name, Gender, Email_ID, Class, DOB, Age, Reference_Code, TestDate, Package_ID, Package_Name) " +
-                               "VALUES (@Name,@School_Name,@Gender,@Email_ID,@Class,@DOB,@Age,@Reference_Code,@Test_Date,@Package_ID,@Package_Name) ";
+                               "VALUES (@Name,@School_Name,@Gender,@Email_ID,@Class,STR_TO_DATE(@DOB,'%d/%m/%Y'), TIMESTAMPDIFF(YEAR, STR_TO_DATE(@DOB, '%d/%m/%Y'), CURDATE()),@Reference_Code,@Test_Date,@Package_ID,@Package_Name) ";
             
 
             // instance connection and command
@@ -78,12 +79,12 @@ namespace DataAccessLayer
                 cmd.Parameters.Add("@School_Name", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = student.School_Name;
                 cmd.Parameters.Add("@Gender", MySql.Data.MySqlClient.MySqlDbType.VarChar, 50).Value = student.Gender == "Male" ? "M" : "F";
                 cmd.Parameters.Add("@Email_ID", MySql.Data.MySqlClient.MySqlDbType.VarChar, 100).Value = student.Email_ID;
-                cmd.Parameters.Add("@Class", MySql.Data.MySqlClient.MySqlDbType.VarChar, 100).Value = student.Class;
-                cmd.Parameters.Add("@DOB", MySql.Data.MySqlClient.MySqlDbType.Date).Value =  DateTime.Parse(student.DOB).ToString("yyyy-MM-dd");
-                cmd.Parameters.Add("@Age", MySql.Data.MySqlClient.MySqlDbType.UInt32, 100).Value = Age;
+                cmd.Parameters.Add("@Class", MySql.Data.MySqlClient.MySqlDbType.VarChar, 100).Value = student.Class;            
+                cmd.Parameters.Add("@DOB", MySql.Data.MySqlClient.MySqlDbType.VarChar, 12).Value = student.DOB;
+               
                 cmd.Parameters.Add("@Reference_Code", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = uniquevalue;
                 cmd.Parameters.Add("@Test_Date", MySql.Data.MySqlClient.MySqlDbType.DateTime).Value = DateTime.Now; 
-                cmd.Parameters.Add("@Package_ID", MySql.Data.MySqlClient.MySqlDbType.UInt32, 100).Value = student.Package_ID;
+                cmd.Parameters.Add("@Package_ID", MySql.Data.MySqlClient.MySqlDbType.UInt32).Value = student.Package_ID;
                 cmd.Parameters.Add("@Package_Name", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = student.Package_Name;
 
 
@@ -151,7 +152,7 @@ namespace DataAccessLayer
 
 
             // Query to be executed
-            string query = "Update package set Package_Name=@Package_Name, Package_Code=@Package_Code, Package_Password=@Package_Password, Shared=@Shared, Price=@Price, Email_Result_ToUser=@Email_Result_ToUser, AssociatedTests=@AssociatedTests where Package_ID= @Package_ID ";
+            string query = "Update package set Package_Name=@Package_Name, Package_Code=@Package_Code, Package_Password=@Package_Password, Shared=@Shared, Price=@Price, Email_Result_ToUser=@Email_Result_ToUser, AssociatedTests=@AssociatedTests, Package_ClassGroup = @Package_ClassGroup where Package_ID= @Package_ID ";
 
             // instance connection and command
             using (MySqlConnection cn = GetConnection())
@@ -167,6 +168,7 @@ namespace DataAccessLayer
                 cmd.Parameters.Add("@Email_Result_ToUser", MySql.Data.MySqlClient.MySqlDbType.Bit).Value = package.Email_Result_ToUser;
                 cmd.Parameters.Add("@AssociatedTests", MySql.Data.MySqlClient.MySqlDbType.VarChar, 100).Value = package.AssociatedTests;
                 cmd.Parameters.Add("@Package_ID", MySql.Data.MySqlClient.MySqlDbType.UInt32).Value = package.Package_ID;
+                cmd.Parameters.Add("@Package_ClassGroup", MySql.Data.MySqlClient.MySqlDbType.VarChar, 10).Value = package.Package_ClassGroup;
 
                 // open connection, execute command and close connection
                 cn.Open();
@@ -243,7 +245,7 @@ namespace DataAccessLayer
             // Collecting Values           
             List<Package> lstPackage = new List<Package>();
             // Query to be executed
-            string query = "Select Package_ID, Package_Name, Package_URL,Package_Code,Package_Password, Shared, Price ,	Email_Result_ToUser, AssociatedTests,Completed ,Attended, ImagePath from package ";
+            string query = "Select Package_ID, Package_Name, Package_URL,Package_Code,Package_Password, Shared, Price ,	Email_Result_ToUser, AssociatedTests,Completed ,Attended, ImagePath, Package_ClassGroup from package ";
 
             // instance connection and command
             using (MySqlConnection cn = GetConnection())
@@ -268,6 +270,7 @@ namespace DataAccessLayer
                         package.Email_Result_ToUser = Convert.ToBoolean(reader["Email_Result_ToUser"].ToString());
                         package.AssociatedTests = reader["AssociatedTests"].ToString();
                         package.ImagePath = reader["ImagePath"].ToString();
+                        package.Package_ClassGroup = reader["Package_ClassGroup"].ToString();
                         lstPackage.Add(package);
                     }
 
@@ -284,7 +287,7 @@ namespace DataAccessLayer
             // Collecting Values           
             List<Package> lstPackage = new List<Package>();
             // Query to be executed
-            string query = "Select Package_ID, Package_Name, Package_URL,Package_Code,Package_Password, Shared, Price ,	Email_Result_ToUser, AssociatedTests,Completed ,Attended, ImagePath from package where Package_ID = @id ";
+            string query = "Select Package_ID, Package_Name, Package_URL,Package_Code,Package_Password, Shared, Price ,	Email_Result_ToUser, AssociatedTests,Completed ,Attended, ImagePath, Package_ClassGroup from package where Package_ID = @id ";
 
             // instance connection and command
             using (MySqlConnection cn = GetConnection())
@@ -310,6 +313,7 @@ namespace DataAccessLayer
                         package.Email_Result_ToUser = Convert.ToBoolean(reader["Email_Result_ToUser"].ToString());
                         package.AssociatedTests = reader["AssociatedTests"].ToString();
                         package.ImagePath = reader["ImagePath"].ToString();
+                        package.Package_ClassGroup = reader["Package_ClassGroup"].ToString();
                         lstPackage.Add(package);
                     }
 
@@ -731,7 +735,7 @@ namespace DataAccessLayer
             StudentTestInfo score = new StudentTestInfo();
 
             // Query to be executed
-            string query = "SELECT * from student_testInfo where Reference_Code = @reference_code";
+            string query = "SELECT * from student_testinfo where Reference_Code = @reference_code";
 
             // instance connection and command
             using (MySqlConnection cn = GetConnection())
@@ -745,6 +749,7 @@ namespace DataAccessLayer
 
                     while (reader.Read())
                     {
+                        score.Student_TestID = reader["Student_TestID"].ToString();
                         score.Name = reader["Name"].ToString();
                         score.School_Name = reader["School_Name"].ToString();
                         score.Gender = reader["Gender"].ToString();
@@ -753,6 +758,8 @@ namespace DataAccessLayer
                         score.DOB = reader["DOB"].ToString();
                         score.Age = int.Parse(reader["Age"].ToString());
                         score.Reference_Code = reader["Reference_Code"].ToString();
+                        score.Package_ID = int.Parse(reader["Package_ID"].ToString());
+                        score.Package_Name = reader["Package_Name"].ToString();
                         score.Verbal_INF = int.Parse(reader["Verbal_INF"].ToString());
                         score.Verbal_COM = int.Parse(reader["Verbal_COM"].ToString());
                         score.Verbal_ARI = int.Parse(reader["Verbal_ARI"].ToString());
@@ -841,7 +848,7 @@ namespace DataAccessLayer
                 List<StudentTestInfo> studentScore = new List<StudentTestInfo>();
 
                 // Query to be executed
-                string query = "Update student_testInfo Set Verbal_Scaled_INF = @Verbal_INF, Verbal_Scaled_COM = @Verbal_COM, Verbal_Scaled_ARI = @Verbal_ARI, Verbal_Scaled_SIM = @Verbal_SIM, Verbal_Scaled_VOC = @Verbal_VOC, Performance_Scaled_DS = @Performance_DS, Performance_Scaled_PC = @Performance_PC, Performance_Scaled_SPA = @Performance_SPA, Performance_Scaled_PA = @Performance_PA, Performance_Scaled_OA = @Performance_OA, Total_Verbal_Score = @verbal_total_score, IQ_Verbal = @verbal_IQ, Percentile_Verbal = @verbal_percentile, Total_Performance_Score = @performance_total_score, IQ_Perfromance = @performabce_IQ, Percentile_Performance = @performance_percentile, Full_Scale_Score = @total_score, Full_Scale_IQ = @total_IQ, Full_Percentile = @total_percentile where Reference_Code = @ref_code";
+                    string query = "Update student_testinfo Set Verbal_Scaled_INF = @Verbal_INF, Verbal_Scaled_COM = @Verbal_COM, Verbal_Scaled_ARI = @Verbal_ARI, Verbal_Scaled_SIM = @Verbal_SIM, Verbal_Scaled_VOC = @Verbal_VOC, Performance_Scaled_DS = @Performance_DS, Performance_Scaled_PC = @Performance_PC, Performance_Scaled_SPA = @Performance_SPA, Performance_Scaled_PA = @Performance_PA, Performance_Scaled_OA = @Performance_OA, Total_Verbal_Score = @verbal_total_score, IQ_Verbal = @verbal_IQ, Percentile_Verbal = @verbal_percentile, Total_Performance_Score = @performance_total_score, IQ_Perfromance = @performabce_IQ, Percentile_Performance = @performance_percentile, Full_Scale_Score = @total_score, Full_Scale_IQ = @total_IQ, Full_Percentile = @total_percentile where Reference_Code = @ref_code";
 
                 // instance connection and command
                 using (MySqlConnection cn = GetConnection())
