@@ -1,0 +1,264 @@
+﻿@{
+    ViewData["Title"] = "Administration";
+}
+
+@section AdminCSS{
+    <link href="~/wwwroot/css/create_edit.css" rel="stylesheet" />
+    <script src='https://static.codepen.io/assets/editor/live/console_runner-1df7d3399bdc1f40995a35209755dcfd8c7547da127f6469fd81e5fba982f6af.js'></script>
+    <script src='https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js'></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+    @*<link rel="canonical" href="https://codepen.io/pixelchar/pen/rfuqK" />*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+    @*<meta name="viewport" content="width=device-width">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>*@
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
+    <style type="text/css">
+
+
+        .bs-example {
+            margin: 20px;
+        }
+
+        body {
+            font-size: 18px !important;
+        }
+    </style>
+    <style class="cp-pen-styles">
+
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+            *:before, *:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+        body {
+            font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+            color: #5e5d52;
+        }
+
+        a {
+            color: #337aa8;
+        }
+
+            a:hover, a:focus {
+                color: #4b8ab2;
+            }
+
+        .container {
+            /*margin: 5% 3%;*/
+            margin-top: 1%;
+            padding-top: 35px;
+        }
+
+        #form {
+            background-color: #FFF;
+            height: 600px;
+            width: 600px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 0px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 0px;
+            text-align: center;
+        }
+
+        label {
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 18px;
+            color: #333;
+            height: 20px;
+            width: 200px;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 15px;
+            float: left;
+        }
+
+        input {
+            border: 1px solid #000;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+
+        var password = document.getElementById("New_Password")
+        varconfirm_password = document.getElementById("confirm_password");
+
+        function validatePassword() {
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            }
+            else {
+                confirm_password.setCustomValidity('Confirm_New_Password');
+            }
+        }
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+
+    </script>
+
+}
+
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#2299c5">
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+
+</head>
+<body>
+    <header class="app-header navbar">
+        <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="nav navbar-nav d-md-down-none">
+            <li class="nav-item px-3 nav-item nav-link active">
+                <a class="nav-link" href='@Url.Action("Index", "Admin")'>Home</a>
+            </li>
+
+            @*<li class="nav-item px-3">
+                    <a class="nav-link" href="/admin/edit">Edit Package</a>
+                </li>*@
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+
+            @*<li class="nav-item d-md-down-none">
+                    <a class="nav-link" href="#">
+                        <i class="icon-list"></i>
+                    </a>
+                </li>*@
+            @*<li class="nav-item d-md-down-none">
+                    <a class="nav-link" href="#">
+                        <i class="icon-location-pin"></i>
+                    </a>
+                </li>*@
+            @*<li class="nav-item px-3">
+                    <button type="submit" class="nav-link">Change Password</button>
+                </li>*@
+            <li class="nav-item px-3">
+                <button type="submit" class="nav-link" onclick="location.href='@Url.Action("LogOut", "Admin")'">Logout</button>
+            </li>
+        </ul>
+    </header>
+    @*<div class="app-body">*@
+    <div class="container">
+        <div id="password">
+            @*<p>@ViewBag.result</p>*@
+            <h3>Edit Password</h3>
+            <br />
+            <div id="divPackage" @*style="@(@ViewBag.result==null ? "display:block" : "display:none")"*@>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="Package_Name">User Name</label>
+                        <input placeholder="User ID" type="text" tabindex="1" name="User_Id" id="User_Id" required pattern="\S.*\S" readonly="readonly">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Package_Code">Password</label>
+                        <input placeholder="Current Password" type="password" tabindex="3" name="Password" id="Password" readonly="readonly">
+                        <br />
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editPassword">Change Password</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="Package_Password">Email Adress</label>
+                        <input placeholder="Email Address" type="text" tabindex="4" name="Email_Id" id="Email_Id" required pattern="\S.*\S" readonly="readonly">
+                        <br />
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editEmail">Edit Email</button>
+                    </div>
+
+                    @*<button name="submit" type="submit" id="package-create" data-submit="...Sending">Submit</button>*@
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="editPassword" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        CHANGE PASSWORD
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="post" id="password" action="../Admin/EditPassword">
+
+                        <div class="form-group">
+                            <label for="name">Current Password</label>
+                            <input type="password" class="form-control" id="Password" name="Password" required maxlength="30" minlength="7">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">New Password</label>
+                            <input type="password" class="form-control" id="New_Password" name="New_Password" required maxlength="30" minlength="7" onchange="if(this.checkValidity()) form.Confirm_New_Password.pattern = this.value;">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Confirm Password</label>
+                            <input type="password" class="form-control" id="Confirm_New_Password" name="Confirm_New_Password" required maxlength="30" minlength="7" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');">
+                        </div>
+                        <button name="submit" type="submit" id="edit_password" data-submit="...Sending">Submit</button>
+                        @*<button type="submit" class="btn btn-lg btn-success btn-block" id="btnContactUs">Post It! &rarr;</button>*@
+                    </form>
+                    <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
+                    <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editEmail" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        CHANGE EMAIL ADDRESS
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="post" id="email" action="../Admin/EditEmail">
+                        <div class="form-group">
+                            <label for="name">New Email Address</label>
+                            <input type="email" class="form-control" id="New_Email_Id" name="New_Email_Id" required maxlength="50">
+                        </div>
+                        <button name="submit" type="submit" id="edit_email" data-submit="...Sending">Submit</button>
+                        @*<button type="submit" class="btn btn-lg btn-success btn-block" id="btnContactUs">Post It! &rarr;</button>*@
+                    </form>
+                    <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
+                    <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+@*</div>*@
+</html>

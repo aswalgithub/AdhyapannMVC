@@ -6,3 +6,11 @@ C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.csproj.Co
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.csproj.CopyComplete
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.dll
 C:\Adhyapann6Jan\Adhyapann\DataAccessLayer\obj\Release\DataAccessLayer.pdb
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\bin\Release\DataAccessLayer.dll
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\bin\Release\DataAccessLayer.pdb
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\bin\Release\MySql.Data.dll
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\bin\Release\MySql.Data.xml
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\obj\Release\DataAccessLayer.csprojAssemblyReference.cache
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\obj\Release\DataAccessLayer.csproj.CopyComplete
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\obj\Release\DataAccessLayer.dll
+D:\Projects\AdhyappanMVC21JAN\DataAccessLayer\obj\Release\DataAccessLayer.pdb

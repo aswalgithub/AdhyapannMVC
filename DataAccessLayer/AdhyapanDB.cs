@@ -885,5 +885,33 @@ namespace DataAccessLayer
             }
 
         }
+
+
+        public AdminDetail GetAdminDetails()
+        {
+            AdminDetail adminDetails = new AdminDetail();
+
+            string query = "SELECT User_Id, Password, Email_Id FROM dbo.admin_details where ID = 1";
+
+            using (MySqlConnection cn = GetConnection())
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, cn))
+                {
+                    // open connection, execute command and close connection
+                    cn.Open();
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        adminDetails.User_Id = reader["User_Id"].ToString();
+                        adminDetails.Password = reader["Password"].ToString();
+                        adminDetails.User_Id = reader["User_Id"].ToString();
+                    }
+                    cn.Close();
+                }
+            }
+
+            return adminDetails;
+        }
     }
 }
