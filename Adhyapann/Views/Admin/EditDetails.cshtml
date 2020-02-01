@@ -173,19 +173,19 @@
             <div id="divPackage" @*style="@(@ViewBag.result==null ? "display:block" : "display:none")"*@>
                 <fieldset>
                     <div class="form-group">
-                        <label for="Package_Name">User Name</label>
-                        <input placeholder="User ID" type="text" tabindex="1" name="User_Id" id="User_Id" required pattern="\S.*\S" readonly="readonly">
+                        <label for="User_ID">User Name</label>
+                        <input type="text" tabindex="1" name="User_Id" id="User_Id" value="@ViewBag.User_Id" required pattern="\S.*\S" readonly="readonly">
                     </div>
 
                     <div class="form-group">
-                        <label for="Package_Code">Password</label>
-                        <input placeholder="Current Password" type="password" tabindex="3" name="Password" id="Password" readonly="readonly">
+                        <label for="Password">Password</label>
+                        <input type="password" tabindex="3" name="Password" id="Password" value="@ViewBag.Password" readonly="readonly">
                         <br />
                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editPassword">Change Password</button>
                     </div>
                     <div class="form-group">
-                        <label for="Package_Password">Email Adress</label>
-                        <input placeholder="Email Address" type="text" tabindex="4" name="Email_Id" id="Email_Id" required pattern="\S.*\S" readonly="readonly">
+                        <label for="Email">Email Adress</label>
+                        <input type="text" tabindex="4" name="Email_Id" id="Email_Id" value="@ViewBag.Email" required pattern="\S.*\S" readonly="readonly">
                         <br />
                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editEmail">Edit Email</button>
                     </div>
@@ -197,19 +197,32 @@
 
     </div>
 
+    <div id="ErrorBox" class="modal fade" role="dialog" style="@(@ViewBag.status==null ? "display:none" : "display:block")">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="error_message" style="width:100%; height:100%; display:block; "> <h3>Error</h3> @ViewBag.status </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="editPassword" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
-                        CHANGE PASSWORD
-                    </h4>
+                    <h4 class="modal-title">CHANGE PASSWORD</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" method="post" id="password" action="../Admin/EditPassword">
 
+                        <div class="form-group">
+                            <label for="User_ID">User Name</label>
+                            <input type="text" tabindex="1" name="User_Id" id="User_Id" value="@ViewBag.User_Id" readonly="readonly">
+                        </div>
                         <div class="form-group">
                             <label for="name">Current Password</label>
                             <input type="password" class="form-control" id="Password" name="Password" required maxlength="30" minlength="7">
@@ -238,15 +251,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
-                        CHANGE EMAIL ADDRESS
-                    </h4>
+                    <h4 class="modal-title">CHANGE EMAIL ADDRESS</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" method="post" id="email" action="../Admin/EditEmail">
+
+                        <div class="form-group">
+                            <label for="User_ID">User Name</label>
+                            <input type="text" tabindex="1" name="User_Id" value="@ViewBag.User_Id" readonly="readonly">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Your Password</label>
+                            <input type="password" class="form-control" name="Password" required maxlength="30" minlength="7">
+                        </div>
                         <div class="form-group">
                             <label for="name">New Email Address</label>
-                            <input type="email" class="form-control" id="New_Email_Id" name="New_Email_Id" required maxlength="50">
+                            <input type="email" class="form-control" name="New_Email_Id" required maxlength="50">
                         </div>
                         <button name="submit" type="submit" id="edit_email" data-submit="...Sending">Submit</button>
                         @*<button type="submit" class="btn btn-lg btn-success btn-block" id="btnContactUs">Post It! &rarr;</button>*@

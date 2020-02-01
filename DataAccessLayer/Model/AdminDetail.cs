@@ -13,9 +13,8 @@ namespace DataAccessLayer
         public string Password { get; set; }
         public string Email_Id { get; set; }
         public string New_Email_Id { get; set; }
-
         public string New_Password { get; set; }
-
         public string Confirm_New_Password { get; set; }
+        public string status { get; set; }
     }
 }

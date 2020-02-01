@@ -887,17 +887,18 @@ namespace DataAccessLayer
         }
 
 
-        public AdminDetail GetAdminDetails()
+        public AdminDetail GetAdminDetails(string userId)
         {
             AdminDetail adminDetails = new AdminDetail();
 
-            string query = "SELECT User_Id, Password, Email_Id FROM dbo.admin_details where ID = 1";
+            string query = "SELECT User_Id, Password, Email_Id FROM dbo.admin_details where User_Id = @userid";
 
             using (MySqlConnection cn = GetConnection())
             {
                 using (MySqlCommand cmd = new MySqlCommand(query, cn))
                 {
                     // open connection, execute command and close connection
+                    cmd.Parameters.AddWithValue("@userid", userId.ToString());
                     cn.Open();
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -905,13 +906,44 @@ namespace DataAccessLayer
                     {
                         adminDetails.User_Id = reader["User_Id"].ToString();
                         adminDetails.Password = reader["Password"].ToString();
-                        adminDetails.User_Id = reader["User_Id"].ToString();
+                        adminDetails.Email_Id = reader["Email_Id"].ToString();
                     }
                     cn.Close();
                 }
             }
-
             return adminDetails;
+        }
+
+        public void SetAdminDetails(AdminDetail adminDetail, string key)
+        {
+            try
+            {
+                string query = String.Empty;
+                if (key == "password")
+                    query = "UPDATE admin_details SET Password = @password where User_Id = @userId";
+                else if (key == "email")
+                    query = "UPDATE admin_details SET Email_Id = @email where User_Id = @userId";
+
+                using (MySqlConnection cn = GetConnection())
+                using (MySqlCommand cmd = new MySqlCommand(query, cn))
+                {
+                    // add parameters and their values
+                    cmd.Parameters.Add("@userId", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = adminDetail.User_Id.ToString();
+                    if (!String.IsNullOrEmpty(adminDetail.New_Email_Id))
+                        cmd.Parameters.Add("@email", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = adminDetail.New_Email_Id.ToString();
+                    if (!String.IsNullOrEmpty(adminDetail.Confirm_New_Password))
+                        cmd.Parameters.Add("@password", MySql.Data.MySqlClient.MySqlDbType.VarChar, 255).Value = adminDetail.Confirm_New_Password.ToString();
+
+                    // open connection, execute command and close connection
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+                    cn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
         }
     }
 }

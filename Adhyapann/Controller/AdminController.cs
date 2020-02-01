@@ -29,18 +29,28 @@ namespace Adhyapan_Project.Controllers
         //}
         public ActionResult Login(string user, string password)
         {
-
-            if (user == "Admin" && password == "Password")
+            if (Authenticate(user, password))
             {
                 FormsAuthentication.SetAuthCookie(user, false);
-
                 return RedirectToAction("Index", "Admin");
-
             }
             else
             {
                 return RedirectToAction("Index", "Auth");
             }
+        }
+
+        private bool Authenticate(string userId, string password)
+        {
+            AdminDetail adminDetails = adhyapanDB.GetAdminDetails(userId);
+            string decryptPassword = String.Empty;
+
+            decryptPassword = Decrypt(adminDetails.Password.ToString());
+
+            if (userId.ToLower() == adminDetails.User_Id.ToString().ToLower() && password == decryptPassword)
+                return true;
+            else
+                return false;
         }
 
         [Authorize]
@@ -242,29 +252,58 @@ namespace Adhyapan_Project.Controllers
 
 
         [Authorize]
-        public ActionResult EditDetails()
+        public ActionResult EditDetails(AdminDetail adminDetails)
         {
+            AdminDetail DBAdmindata = adhyapanDB.GetAdminDetails("Admin");
+
+            ViewBag.User_Id = DBAdmindata.User_Id.ToString();
+            ViewBag.Password = DBAdmindata.Password.ToString();
+            ViewBag.Email = DBAdmindata.Email_Id.ToString();
+            if (!String.IsNullOrEmpty(adminDetails.status))
+                ViewBag.status = adminDetails.status;
+
             return View("EditDetails");
         }
 
         [Authorize]
         public ActionResult EditPassword(AdminDetail adminDetails)
         {
-            AdminDetail DBAdmindata = adhyapanDB.GetAdminDetails();
+            AdminDetail DBAdmindata = adhyapanDB.GetAdminDetails(adminDetails.User_Id.ToString());
 
-            string EncryptedPassword = encrypt(adminDetails.Confirm_New_Password.ToString());
-            string DecryptedPassword = Decrypt(EncryptedPassword);
+            if (adminDetails.Password.ToString() != Decrypt(DBAdmindata.Password.ToString()))
+            {
+                adminDetails.status = "Fail: Currect password does not match";
+            }
+            else
+            {
+                adminDetails.Confirm_New_Password = encrypt(adminDetails.Confirm_New_Password.ToString());
+                adhyapanDB.SetAdminDetails(adminDetails, "password");
+                adminDetails.status = "Success: Password Updated";
+            }
+
             return View("EditDetails", adminDetails);
         }
 
         [Authorize]
-        public string EditEmail(AdminDetail adminDetails)
+        public ActionResult EditEmail(AdminDetail adminDetails)
         {
-            return "success";
+            AdminDetail DBAdmindata = adhyapanDB.GetAdminDetails(adminDetails.User_Id.ToString());
+
+            if (adminDetails.Password.ToString() != Decrypt(DBAdmindata.Password.ToString()))
+            {
+                adminDetails.status = "Fail: Currect password does not match";
+            }
+            else
+            {
+                adhyapanDB.SetAdminDetails(adminDetails, "email");
+                adminDetails.status = "Success: Email has been updated Updated";
+            }
+
+            return View("EditDetails", adminDetails);
         }
 
         [Authorize]
-        public string encrypt(string encryptString)
+        private string encrypt(string encryptString)
         {
             string EncryptionKey = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             byte[] clearBytes = Encoding.Unicode.GetBytes(encryptString);
@@ -290,7 +329,7 @@ namespace Adhyapan_Project.Controllers
         }
 
         [Authorize]
-        public string Decrypt(string cipherText)
+        private string Decrypt(string cipherText)
         {
             string EncryptionKey = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             cipherText = cipherText.Replace(" ", "+");
